@@ -592,7 +592,7 @@ func outputdatanasabahberdasarkantanggal() {
 
 }
 func mengisikearraymenampung() { //masih salah
-	var tahun, bulan, hari, f int
+	var tahun, bulan, hari, f, r int
 	time := time.Now()
 	tahun = time.Year()
 	bulan = pengubahbulan(bulan)
@@ -659,7 +659,7 @@ func mengisikearraymenampung() { //masih salah
 }
 func loginmanager() {
 	var nomorrekening string
-	var bagianarray, r int
+	var bagianarray int
 	var kondisi, ulang, kondisi1 string
 	//paksa masuk dulu
 	ulang = "1"
