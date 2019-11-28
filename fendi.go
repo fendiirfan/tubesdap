@@ -165,7 +165,7 @@ func tanggal(ke int, tanggal *string, hari, bulan, tahun *int) {
 	*tahun = time.Year()
 	*hari = time.Day()
 	*bulan = pengubahbulan(*bulan)
-	*tanggal = strconv.Itoa(*hari) + "-" + string(*bulan) + "-" + strconv.Itoa(*tahun)
+	*tanggal = strconv.Itoa(*hari) + "-" + strconv.Itoa(*bulan) + "-" + strconv.Itoa(*tahun)
 
 }
 func validasiinputanjenisrekening() {
@@ -267,19 +267,19 @@ func validasiinputnomorrekening2(nomorrekening string) {
 }
 func validasijumlahsetoran(jumlahsetoran, bagianarray int) {
 	if dataN[bagianarray].norekening[4] == 83 { // menggunakan ascii XYZ-S001
-		for jumlahsetoran > 50000 {
+		for jumlahsetoran > 50000 || jumlahsetoran < 0 {
 			fmt.Println("Untuk Jenis rekening Silver max setoran 50000")
 			fmt.Print("Input Jumlah Setoran : ")
 			fmt.Scanln(&jumlahsetoran)
 		}
 	} else if dataN[bagianarray].norekening[4] == 71 {
-		for jumlahsetoran > 200000 {
+		for jumlahsetoran > 200000 || jumlahsetoran < 0 {
 			fmt.Println("Untuk Jenis rekening Gold max setoran 200000")
 			fmt.Print("Input Jumlah Setoran : ")
 			fmt.Scanln(&jumlahsetoran)
 		}
 	} else if dataN[bagianarray].norekening[4] == 80 {
-		for jumlahsetoran > 500000 {
+		for jumlahsetoran > 500000 || jumlahsetoran < 0 {
 			fmt.Println("Untuk Jenis rekening Platinum max setoran 500000")
 			fmt.Print("Input Jumlah Setoran : ")
 			fmt.Scanln(&jumlahsetoran)
@@ -328,7 +328,7 @@ func setortunai() {
 		fmt.Print("Input jumlah setoran : ")
 		fmt.Scanln(&jumlahsetoran)
 		validasijumlahsetoran(jumlahsetoran, bagianarray)
-
+		fmt.Println("asuuuu ", bagianarray)
 		dataN[bagianarray].setoranT = jumlahsetoran + dataN[bagianarray].setoranT
 
 		//menentkan otomatis tanggal
@@ -352,48 +352,36 @@ func setortunai() {
 //nomor 3 login manager
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 func outputdatanasabah(bagianarray int) {
-	var z string
-	z = "1"
-	for z == "1" {
-		fmt.Println("=============================================")
-		fmt.Println("=============================================")
-		fmt.Println("=============================================")
-		fmt.Print("Nama 				: ")
-		fmt.Println(dataN[bagianarray].Nama)
-		fmt.Println("")
-		fmt.Print("NIK 				: ")
-		fmt.Println(dataN[bagianarray].NIK)
-		fmt.Println("")
-		if dataN[bagianarray].JenisR == "1" {
-			fmt.Println("Jenis Rekening 				: Silver")
-		} else if dataN[bagianarray].JenisR == "2" {
-			fmt.Println("Jenis Rekening					: Gold")
-		} else {
-			fmt.Println("Jenis Rekening 				: Platinum")
-		}
-		fmt.Println("")
-		fmt.Print("Saldo Nasabah 			: ")
-		fmt.Println(dataN[bagianarray].setoranT)
-		fmt.Println("")
-		fmt.Print("Tanggal Pendaftaran Nasabah 	: ")
-		fmt.Println(dataN[bagianarray].tanggalpendaftaran)
-		fmt.Println("")
-		fmt.Print("Tanggal Transaksi Terakhir 	: ")
-		fmt.Println(dataN[bagianarray].tanggaltransaksiterakhiir)
-		fmt.Println("")
-		fmt.Println("Apakah Masih ingin melihat data nasabah?")
-		fmt.Println("1.YA")
-		fmt.Println("2.TIDAK")
-		fmt.Scanln(&z)
-		for z != "1" && z != "2" {
-			fmt.Println("Mohon Input angka 1 atau 2 ")
-			fmt.Scanln(&z)
-		}
-		fmt.Println("")
-		fmt.Println("=============================================")
-		fmt.Println("=============================================")
-		fmt.Println("=============================================")
+	fmt.Println("=============================================")
+	fmt.Println("=============================================")
+	fmt.Println("=============================================")
+	fmt.Print("Nama 				: ")
+	fmt.Println(dataN[bagianarray].Nama)
+	fmt.Println("")
+	fmt.Print("NIK 				: ")
+	fmt.Println(dataN[bagianarray].NIK)
+	fmt.Println("")
+	if dataN[bagianarray].JenisR == "1" {
+		fmt.Println("Jenis Rekening 				: Silver")
+	} else if dataN[bagianarray].JenisR == "2" {
+		fmt.Println("Jenis Rekening					: Gold")
+	} else {
+		fmt.Println("Jenis Rekening 				: Platinum")
 	}
+	fmt.Println("")
+	fmt.Print("Saldo Nasabah 			: ")
+	fmt.Println(dataN[bagianarray].setoranT)
+	fmt.Println("")
+	fmt.Print("Tanggal Pendaftaran Nasabah 	: ")
+	fmt.Println(dataN[bagianarray].tanggalpendaftaran)
+	fmt.Println("")
+	fmt.Print("Tanggal Transaksi Terakhir 	: ")
+	fmt.Println(dataN[bagianarray].tanggaltransaksiterakhiir)
+	fmt.Println("")
+
+	fmt.Println("=============================================")
+	fmt.Println("=============================================")
+	fmt.Println("=============================================")
 
 }
 func sortingselectionsort() { //masih salah
@@ -407,7 +395,7 @@ func sortingselectionsort() { //masih salah
 		//perlangan untuk array ke-t(0,1,2.....)
 		min = t
 		//
-		for p = 0; p < jumlahdatanasabah; p++ {
+		for p = t + 1; p < jumlahdatanasabah; p++ {
 			//perulangan untuk mengecek min array ke-t terhadap array selanjutnya
 			if dataN[min].Nama > dataN[p].Nama {
 				min = p
@@ -661,6 +649,7 @@ func loginmanager() {
 	var nomorrekening string
 	var bagianarray int
 	var kondisi, ulang, kondisi1 string
+	var z string
 	//paksa masuk dulu
 	ulang = "1"
 	for ulang == "1" {
@@ -678,14 +667,26 @@ func loginmanager() {
 		}
 
 		if kondisi1 == "1" {
-			fmt.Println("masukan nomor rekening nasabah yang ingin di cek datanya : ")
-			fmt.Scanln(&nomorrekening)
-			//pemvalidasi apakah nomor rekening udah terdaftar atau belum. kalau belum akan meminta inputan terus
-			validasiinputnomorrekening2(nomorrekening)
-			//disini saya akan mencari array ke berapa yang ada nomor rekeningnya yang di cari
-			caridatanomorrekening(&bagianarray, nomorrekening)
-			//-------------------------
-			outputdatanasabah(bagianarray)
+			z = "1"
+			for z == "1" {
+				fmt.Println("masukan nomor rekening nasabah yang ingin di cek datanya : ")
+				fmt.Scanln(&nomorrekening)
+				//pemvalidasi apakah nomor rekening udah terdaftar atau belum. kalau belum akan meminta inputan terus
+				validasiinputnomorrekening2(nomorrekening)
+				//disini saya akan mencari array ke berapa yang ada nomor rekeningnya yang di cari
+				caridatanomorrekening(&bagianarray, nomorrekening)
+				//-------------------------
+				outputdatanasabah(bagianarray)
+				fmt.Println("Apakah Masih ingin melihat data nasabah?")
+				fmt.Println("1.YA")
+				fmt.Println("2.TIDAK")
+				fmt.Scanln(&z)
+				for z != "1" && z != "2" {
+					fmt.Println("Mohon Input angka 1 atau 2 ")
+					fmt.Scanln(&z)
+				}
+				fmt.Println("")
+			}
 		} else if kondisi1 == "2" {
 			fmt.Println("Ingin Melihat data semua nasabah?")
 			fmt.Println("1.YA")
@@ -723,7 +724,7 @@ func loginmanager() {
 		fmt.Println("Masih ingin melakukan sesuatu di menu login?")
 		fmt.Println("1.YA")
 		fmt.Println("2.TIDAK")
-		fmt.Println(&ulang)
+		fmt.Scanln(&ulang)
 		//untuk pengecekkan/validasi inputan
 		for ulang != "1" && ulang != "2" {
 			fmt.Println("Input 1 atau 2")
