@@ -223,19 +223,29 @@ func pendaftaran(counterS, counterG, counterP int) {
 
 		generatenorekening()
 
-		//ini untuk menginput tanggal pendaftaran
+		//ini untuk menginput tanggal pendaftaran secara otomatis
 		tanggal(i, &dataN[i].tanggalpendaftaran, &dataN[i].haripendaftaran, &dataN[i].bulanpendaftaran, &dataN[i].tahunpendaftaran)
-		//untuk menginput tanggal pendaftaran
+		//untuk menginput tanggal pendaftaran secara otomatis
 		tanggal(i, &dataN[i].tanggaltransaksiterakhiir, &dataN[i].haritransaksiterakhiir, &dataN[i].bulantransaksiterakhiir, &dataN[i].tahuntransaksiterakhiir)
 
-		fmt.Println("Masih ingin melanjutkan penginputan?")
-		fmt.Println("1. YA")
-		fmt.Println("2. TIDAK")
-		fmt.Scanln(&loopingpenginputandata)
-		i++
-		fmt.Println("-----------------------------------------------")
-		jumlahdatanasabah++
-		fmt.Println(jumlahdatanasabah)
+		//untuk test case kalau di perlukan dalam presentasi
+		/*
+			dataN[0].haritransaksiterakhiir = 2
+			dataN[0].bulantransaksiterakhiir = 6
+			dataN[0].tahuntransaksiterakhiir = 2020
+			dataN[1].haritransaksiterakhiir = 1
+			dataN[1].bulantransaksiterakhiir = 7
+			dataN[1].tahuntransaksiterakhiir = 2019
+
+			fmt.Println("Masih ingin melanjutkan penginputan?")
+			fmt.Println("1. YA")
+			fmt.Println("2. TIDAK")
+			fmt.Scanln(&loopingpenginputandata)
+			i++
+			fmt.Println("-----------------------------------------------")
+			jumlahdatanasabah++
+			fmt.Println(jumlahdatanasabah)
+		*/
 	}
 
 }
@@ -581,69 +591,137 @@ func outputdatanasabahberdasarkantanggal() {
 }
 func mengisikearraymenampung() { //masih salah
 	var tahun, bulan, hari, f, r int
+	var duar bool
 	time := time.Now()
 	tahun = time.Year()
 	bulan = pengubahbulan(bulan)
 	hari = time.Day()
 
 	//masih salah
+	r = 0
+
 	for f = 0; f < jumlahdatanasabah; f++ {
-		for r = 0; r < jumlahdatanasabah; r++ {
+		duar = false
+		for r < jumlahdatanasabah && duar == false {
+			fmt.Println("asuuuuuuuuuuuuuuu", dataN[r].haritransaksiterakhiir, dataN[r].bulantransaksiterakhiir, dataN[r].tahuntransaksiterakhiir)
+			fmt.Println("asuuuuuuuuuuuuuuu", hari, bulan, tahun)
+
 			if dataN[r].tahuntransaksiterakhiir == tahun {
-				if bulan == dataN[r].tahuntransaksiterakhiir+6 {
+				if bulan == (dataN[r].tahuntransaksiterakhiir + 6) {
 					if hari > dataN[r].haritransaksiterakhiir {
 						menampung[f] = dataN[r]
 						jumlahdatanasabahpasif++
+						duar = true
+
 					}
-				} else if bulan > dataN[r].tahuntransaksiterakhiir+6 {
+
+				} else if bulan == (dataN[r].tahuntransaksiterakhiir - 6) {
+					if hari < dataN[r].haritransaksiterakhiir {
+						menampung[f] = dataN[r]
+						jumlahdatanasabahpasif++
+						duar = true
+
+					}
+
+				} else if bulan > (dataN[r].bulantransaksiterakhiir+6) || bulan < (dataN[r].bulantransaksiterakhiir-6) {
 					menampung[f] = dataN[r]
 					jumlahdatanasabahpasif++
+					duar = true
+
 				}
+
 			} else {
-				if tahun >= dataN[r].tahuntransaksiterakhiir+1 {
+				if tahun > dataN[r].tahuntransaksiterakhiir+1 || tahun < dataN[r].tahuntransaksiterakhiir-1 {
 					menampung[f] = dataN[r]
 					jumlahdatanasabahpasif++
+					duar = true
 				} else {
 					if bulan == 7 && dataN[r].bulantransaksiterakhiir == 1 {
-						if hari > dataN[r].haritransaksiterakhiir {
+						if hari < dataN[r].haritransaksiterakhiir {
 							menampung[f] = dataN[r]
 							jumlahdatanasabahpasif++
+							duar = true
 						}
 					} else if bulan == 8 && dataN[r].bulantransaksiterakhiir == 2 {
-						if hari > dataN[r].haritransaksiterakhiir {
+						if hari < dataN[r].haritransaksiterakhiir {
 							menampung[f] = dataN[r]
 							jumlahdatanasabahpasif++
+							duar = true
 						}
 					} else if bulan == 9 && dataN[r].bulantransaksiterakhiir == 3 {
-						if hari > dataN[r].haritransaksiterakhiir {
+						if hari < dataN[r].haritransaksiterakhiir {
 							menampung[f] = dataN[r]
 							jumlahdatanasabahpasif++
+							duar = true
 						}
 
 					} else if bulan == 10 && dataN[r].bulantransaksiterakhiir == 4 {
-						if hari > dataN[r].haritransaksiterakhiir {
+						if hari < dataN[r].haritransaksiterakhiir {
 							menampung[f] = dataN[r]
 							jumlahdatanasabahpasif++
+							duar = true
 						}
 
 					} else if bulan == 11 && dataN[r].bulantransaksiterakhiir == 5 {
-						if hari > dataN[r].haritransaksiterakhiir {
+						if hari < dataN[r].haritransaksiterakhiir {
 							menampung[f] = dataN[r]
 							jumlahdatanasabahpasif++
+							duar = true
 						}
 
 					} else if bulan == 12 && dataN[r].bulantransaksiterakhiir == 6 {
+						if hari < dataN[r].haritransaksiterakhiir {
+							menampung[f] = dataN[r]
+							jumlahdatanasabahpasif++
+							duar = true
+						}
+
+					} else if bulan == 1 && dataN[r].bulantransaksiterakhiir == 7 {
 						if hari > dataN[r].haritransaksiterakhiir {
 							menampung[f] = dataN[r]
 							jumlahdatanasabahpasif++
+							duar = true
+						}
+					} else if bulan == 2 && dataN[r].bulantransaksiterakhiir == 8 {
+						if hari > dataN[r].haritransaksiterakhiir {
+							menampung[f] = dataN[r]
+							jumlahdatanasabahpasif++
+							duar = true
+						}
+					} else if bulan == 3 && dataN[r].bulantransaksiterakhiir == 9 {
+						if hari > dataN[r].haritransaksiterakhiir {
+							menampung[f] = dataN[r]
+							jumlahdatanasabahpasif++
+							duar = true
+						}
+
+					} else if bulan == 4 && dataN[r].bulantransaksiterakhiir == 10 {
+						if hari > dataN[r].haritransaksiterakhiir {
+							menampung[f] = dataN[r]
+							jumlahdatanasabahpasif++
+							duar = true
+						}
+
+					} else if bulan == 5 && dataN[r].bulantransaksiterakhiir == 11 {
+						if hari > dataN[r].haritransaksiterakhiir {
+							menampung[f] = dataN[r]
+							jumlahdatanasabahpasif++
+							duar = true
+						}
+
+					} else if bulan == 6 && dataN[r].bulantransaksiterakhiir == 12 {
+						if hari > dataN[r].haritransaksiterakhiir {
+							menampung[f] = dataN[r]
+							jumlahdatanasabahpasif++
+							duar = true
 						}
 
 					}
 				}
 			}
+			r++
 		}
 	}
-	fmt.Println(menampung)
 }
 func loginmanager() {
 	var nomorrekening string
