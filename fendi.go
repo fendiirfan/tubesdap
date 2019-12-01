@@ -236,16 +236,16 @@ func pendaftaran(counterS, counterG, counterP int) {
 			dataN[1].haritransaksiterakhiir = 1
 			dataN[1].bulantransaksiterakhiir = 7
 			dataN[1].tahuntransaksiterakhiir = 2019
-
-			fmt.Println("Masih ingin melanjutkan penginputan?")
-			fmt.Println("1. YA")
-			fmt.Println("2. TIDAK")
-			fmt.Scanln(&loopingpenginputandata)
-			i++
-			fmt.Println("-----------------------------------------------")
-			jumlahdatanasabah++
-			fmt.Println(jumlahdatanasabah)
 		*/
+		fmt.Println("Masih ingin melanjutkan penginputan?")
+		fmt.Println("1. YA")
+		fmt.Println("2. TIDAK")
+		fmt.Scanln(&loopingpenginputandata)
+		i++
+		fmt.Println("-----------------------------------------------")
+		jumlahdatanasabah++
+		fmt.Println(jumlahdatanasabah)
+
 	}
 
 }
