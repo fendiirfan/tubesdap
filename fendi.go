@@ -28,34 +28,7 @@ var jumlahdatanasabah, jumlahdatanasabahpasif int //variabel global
 // untuk menyelesaikan bagian 1
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-func pengubahbulan(bulan int) int {
-	t := time.Now()
-	if t.Month().String() == "Januari" {
-		return 1
-	} else if t.Month().String() == "February" {
-		return 2
-	} else if t.Month().String() == "Maret" {
-		return 3
-	} else if t.Month().String() == "April" {
-		return 4
-	} else if t.Month().String() == "Mei" {
-		return 5
-	} else if t.Month().String() == "June" {
-		return 6
-	} else if t.Month().String() == "July" {
-		return 7
-	} else if t.Month().String() == "August" {
-		return 8
-	} else if t.Month().String() == "September" {
-		return 9
-	} else if t.Month().String() == "October" {
-		return 10
-	} else if t.Month().String() == "November" {
-		return 11
-	} else {
-		return 12
-	}
-}
+
 func validasipilihanmenulogin(login *string) {
 	for *login != "1" && *login != "2" && *login != "3" {
 		fmt.Print("Ada yang salah!!! Mohon input angka 1 atau 2 atau 3 : ")
@@ -164,7 +137,7 @@ func tanggal(ke int, tanggal *string, hari, bulan, tahun *int) {
 
 	*tahun = time.Year()
 	*hari = time.Day()
-	*bulan = pengubahbulan(*bulan)
+	*bulan = int(time.Month())
 	*tanggal = strconv.Itoa(*hari) + "-" + strconv.Itoa(*bulan) + "-" + strconv.Itoa(*tahun)
 
 }
@@ -230,12 +203,21 @@ func pendaftaran(counterS, counterG, counterP int) {
 
 		//untuk test case kalau di perlukan dalam presentasi
 		/*
-			dataN[0].haritransaksiterakhiir = 2
-			dataN[0].bulantransaksiterakhiir = 6
-			dataN[0].tahuntransaksiterakhiir = 2020
-			dataN[1].haritransaksiterakhiir = 1
-			dataN[1].bulantransaksiterakhiir = 7
-			dataN[1].tahuntransaksiterakhiir = 2019
+			dataN[0].haritransaksiterakhiir = 1
+			dataN[0].bulantransaksiterakhiir = 8
+			dataN[0].tahuntransaksiterakhiir = 2019
+			dataN[1].haritransaksiterakhiir = 2
+			dataN[1].bulantransaksiterakhiir = 6
+			dataN[1].tahuntransaksiterakhiir = 2020
+			dataN[2].haritransaksiterakhiir = 3
+			dataN[2].bulantransaksiterakhiir = 12
+			dataN[2].tahuntransaksiterakhiir = 2020
+			dataN[3].haritransaksiterakhiir = 1
+			dataN[3].bulantransaksiterakhiir = 6
+			dataN[3].tahuntransaksiterakhiir = 2019
+			dataN[4].haritransaksiterakhiir = 1
+			dataN[4].bulantransaksiterakhiir = 7
+			dataN[4].tahuntransaksiterakhiir = 2000
 		*/
 		fmt.Println("Masih ingin melanjutkan penginputan?")
 		fmt.Println("1. YA")
@@ -338,12 +320,30 @@ func setortunai() {
 		fmt.Print("Input jumlah setoran : ")
 		fmt.Scanln(&jumlahsetoran)
 		validasijumlahsetoran(jumlahsetoran, bagianarray)
-		fmt.Println("asuuuu ", bagianarray)
 		dataN[bagianarray].setoranT = jumlahsetoran + dataN[bagianarray].setoranT
 
 		//menentkan otomatis tanggal
 
-		tanggal(bagianarray, &dataN[bagianarray].tanggaltransaksiterakhiir, &dataN[i].haritransaksiterakhiir, &dataN[i].bulantransaksiterakhiir, &dataN[i].tahuntransaksiterakhiir)
+		tanggal(bagianarray, &dataN[bagianarray].tanggaltransaksiterakhiir, &dataN[bagianarray].haritransaksiterakhiir, &dataN[bagianarray].bulantransaksiterakhiir, &dataN[bagianarray].tahuntransaksiterakhiir)
+
+		//untuk kebutuhan kalau dibutuhkan di presentasi
+		/*dataN[0].haritransaksiterakhiir = 1
+		dataN[0].bulantransaksiterakhiir = 8
+		dataN[0].tahuntransaksiterakhiir = 2019
+		dataN[1].haritransaksiterakhiir = 2
+		dataN[1].bulantransaksiterakhiir = 6
+		dataN[1].tahuntransaksiterakhiir = 2020
+		dataN[2].haritransaksiterakhiir = 3
+		dataN[2].bulantransaksiterakhiir = 12
+		dataN[2].tahuntransaksiterakhiir = 2020
+		dataN[3].haritransaksiterakhiir = 1
+		dataN[3].bulantransaksiterakhiir = 6
+		dataN[3].tahuntransaksiterakhiir = 2019
+		dataN[4].haritransaksiterakhiir = 1
+		dataN[4].bulantransaksiterakhiir = 7
+		dataN[4].tahuntransaksiterakhiir = 2000
+		*/
+
 		fmt.Println("Masih ingin melanjutkan penginputan?")
 		fmt.Println("1. YA")
 		fmt.Println("2. TIDAK")
@@ -594,7 +594,7 @@ func mengisikearraymenampung() { //masih salah
 	var duar bool
 	time := time.Now()
 	tahun = time.Year()
-	bulan = pengubahbulan(bulan)
+	bulan = int(time.Month())
 	hari = time.Day()
 
 	//masih salah
@@ -603,8 +603,6 @@ func mengisikearraymenampung() { //masih salah
 	for f = 0; f < jumlahdatanasabah; f++ {
 		duar = false
 		for r < jumlahdatanasabah && duar == false {
-			fmt.Println("asuuuuuuuuuuuuuuu", dataN[r].haritransaksiterakhiir, dataN[r].bulantransaksiterakhiir, dataN[r].tahuntransaksiterakhiir)
-			fmt.Println("asuuuuuuuuuuuuuuu", hari, bulan, tahun)
 
 			if dataN[r].tahuntransaksiterakhiir == tahun {
 				if bulan == (dataN[r].tahuntransaksiterakhiir + 6) {
